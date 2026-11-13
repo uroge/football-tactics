@@ -1,0 +1,9 @@
+# Repository guidance
+
+- **Scope.** Read [requirements](docs/requirements.md) before changing behavior and the [current milestone](docs/roadmap/milestones.md) before starting implementation. Phase 1 begins with explicit user approval.
+- **Reuse.** Search the repository, then check the platform SDK, standard library and maintained open-source libraries before writing a custom component. Favor existing implementations for capture, rendering, transport, validation, detection, tracking and numerical routines. If a custom solution is necessary, record the gap and keep it narrowly scoped.
+- **Dependencies.** Check maintenance, documented APIs, platform support, licenses and transitive cost before adding a dependency. Review model weights and dataset licenses separately. Reuse one library per responsibility where practical. Pin resolved dependencies with native tooling.
+- **Ownership.** Give each behavior and contract one authoritative location. Reuse established interfaces and extract shared code when callers share the same behavior. Keep application-specific policy next to its owner. Add modules or abstractions when they simplify a real change.
+- **Boundaries.** Keep Android platform code in Android, vision algorithms independent of HTTP and the wire contract in `packages/protocol`. Follow the nearest component guidance. Profile before adding Rust or new infrastructure.
+- **Lifecycle.** Give each session resource a clear owner. Bound queues and payloads, propagate cancellation, and release resources on stop, failure and retry. Keep media and secrets out of Git and logs. Use authorized capture APIs and respect protected content.
+- **Verification.** Run the native checks for changed components and record any checks that require hardware. Use deterministic fixtures for regressions and physical TV evidence for compatibility. Update the authoritative requirements, contract or decision when behavior changes.

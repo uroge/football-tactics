@@ -1,0 +1,8 @@
+projects:
+  android-tv: 'apps/android-tv'
+  vision-server: 'apps/vision-server'
+  protocol: 'packages/protocol'
+  tactical-engine: 'crates/tactical-engine'
+
+vcs:
+  defaultBranch: 'main'
