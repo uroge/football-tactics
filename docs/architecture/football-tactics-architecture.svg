@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="747" viewBox="0 0 1080 747" role="img" aria-labelledby="title description">
+<title id="title">Football Tactics system architecture</title>
+<desc id="description">The Android TV capture service samples frames from compatible playback. A WebSocket sends binary frames to FastAPI on the Mac. Detection, tracking, team classification and pitch calibration feed tactical analysis. JSON annotations return to the TV for freshness and alignment checks, then a Canvas overlay draws over the original playback.</desc>
+<defs>
+<marker id="navy" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 4.5L0 9Z" fill="#40566e"/></marker>
+<marker id="blue" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 4.5L0 9Z" fill="#1764a3"/></marker>
+<marker id="green" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L9 4.5L0 9Z" fill="#067660"/></marker>
+</defs>
+<style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#172c44}
+.title{font-size:25px;font-weight:700}
+.heading{font-size:19px;font-weight:700}
+.label{font-size:16px;font-weight:700}
+.small{font-size:14px;fill:#40566e}
+.wire{font-size:14px;font-weight:700;text-anchor:middle}
+.line{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.navy{stroke:#40566e}.blue{stroke:#1764a3}.green{stroke:#067660}
+.dash{stroke-dasharray:5 5}
+</style>
+<rect x="1" y="1" width="1078" height="745" rx="16" fill="#f8fafc" stroke="#d2dce7"/>
+<text x="24" y="36" class="title" >Football Tactics · System architecture</text>
+<rect x="20" y="54" width="414" height="666" rx="12" fill="#edf4fa" stroke="#c0d4e6"/>
+<rect x="646" y="54" width="414" height="666" rx="12" fill="#edf7f4" stroke="#bedbd2"/>
+<text x="38" y="83" class="heading" >Android TV · Kotlin</text>
+<text x="664" y="83" class="heading" >Mac · Python</text>
+<rect x="92" y="106" width="324" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="106" y="128" class="label" >Third-party playback app</text>
+<text x="106" y="147" class="small" >Original match video</text>
+<rect x="92" y="186" width="324" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="106" y="208" class="label" >Foreground capture service</text>
+<text x="106" y="227" class="small" >MediaProjection · VirtualDisplay · ImageReader</text>
+<rect x="92" y="266" width="324" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="106" y="288" class="label" >Frame preparation</text>
+<text x="106" y="307" class="small" >Sample, resize, encode · bounded queue</text>
+<rect x="92" y="346" width="324" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="106" y="368" class="label" >OkHttp WebSocket client</text>
+<text x="106" y="387" class="small" >Send frames and receive session results</text>
+<rect x="92" y="434" width="324" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="106" y="456" class="label" >Validate and align annotations</text>
+<text x="106" y="475" class="small" >Reject stale results · map to video bounds</text>
+<rect x="92" y="514" width="324" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="106" y="536" class="label" >Canvas overlay</text>
+<text x="106" y="555" class="small" >WindowManager · playback keeps D-pad focus</text>
+<rect x="92" y="618" width="324" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="106" y="640" class="label" >TV Compose and session manager</text>
+<text x="106" y="659" class="small" >Permissions, layer controls, start and stop</text>
+<path d="M254 162 V186" class="line navy" marker-end="url(#navy)"/>
+<path d="M254 242 V266" class="line navy" marker-end="url(#navy)"/>
+<path d="M254 322 V346" class="line navy" marker-end="url(#navy)"/>
+<path d="M254 402 V434" class="line navy" marker-end="url(#navy)"/>
+<path d="M254 490 V514" class="line navy" marker-end="url(#navy)"/>
+<path d="M92 542 H43 V134 H92" class="line green" marker-end="url(#green)"/>
+<text x="50" y="339" class="small" transform="rotate(-90 50 339)" text-anchor="middle">Graphics over the match</text>
+<path d="M92 646 H68 V214 H92" class="line navy dash" marker-end="url(#navy)"/>
+<path d="M68 554 H92" class="line navy dash" marker-end="url(#navy)"/>
+<rect x="664" y="106" width="378" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="678" y="128" class="label" >FastAPI WebSocket</text>
+<text x="678" y="147" class="small" >Authenticate, limit payloads, manage sessions</text>
+<rect x="664" y="186" width="378" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="678" y="208" class="label" >Latest-frame processing</text>
+<text x="678" y="227" class="small" >Validate and decode the newest pending frame</text>
+<rect x="664" y="266" width="184" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="678" y="288" class="label" >YOLO detection</text>
+<text x="678" y="307" class="small" >Players, referees, ball</text>
+<rect x="864" y="266" width="178" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="878" y="288" class="label" >Pitch calibration</text>
+<text x="878" y="307" class="small" >OpenCV homography</text>
+<rect x="664" y="346" width="184" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="678" y="368" class="label" >ByteTrack</text>
+<text x="678" y="387" class="small" >Track IDs · reset at cuts</text>
+<rect x="664" y="426" width="184" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="678" y="448" class="label" >Team classification</text>
+<text x="678" y="467" class="small" >Group players by kit color</text>
+<rect x="664" y="514" width="378" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="678" y="536" class="label" >Tactical analysis</text>
+<text x="678" y="555" class="small" >Confidence checks · timestamped annotations</text>
+<rect x="740" y="618" width="302" height="56" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="754" y="640" class="label" >Optional Rust engine</text>
+<text x="754" y="659" class="small" >Geometry and metrics after profiling</text>
+<path d="M853 162 V186" class="line navy" marker-end="url(#navy)"/>
+<path d="M853 242 V253 H756 V266" class="line navy" marker-end="url(#navy)"/>
+<path d="M853 253 H953 V266" class="line navy" marker-end="url(#navy)"/>
+<path d="M756 322 V346" class="line navy" marker-end="url(#navy)"/>
+<path d="M756 402 V426" class="line navy" marker-end="url(#navy)"/>
+<path d="M756 482 V514" class="line navy" marker-end="url(#navy)"/>
+<path d="M953 322 V514" class="line navy" marker-end="url(#navy)"/>
+<path d="M891 570 V618" class="line navy dash" marker-end="url(#navy)"/>
+<rect x="450" y="189" width="180" height="142" rx="12" fill="#ffffff" stroke="#b9cad9"/>
+<text x="540" y="214" class="wire" >Authenticated LAN</text>
+<text x="540" y="236" class="small" text-anchor="middle">One WebSocket</text>
+<text x="540" y="263" class="wire" style="fill:#1764a3">Binary video frames →</text>
+<text x="540" y="286" class="wire" style="fill:#067660">← JSON annotations</text>
+<text x="540" y="309" class="small" text-anchor="middle">Shared versioned protocol</text>
+<path d="M416 363 H484 V331" class="line blue"/>
+<path d="M596 189 V126 H664" class="line blue" marker-end="url(#blue)"/>
+<path d="M664 145 H612 V189" class="line green"/>
+<path d="M501 331 V386 H416" class="line green" marker-end="url(#green)"/>
+<path d="M664 542 H635 V158 H664" class="line green" marker-end="url(#green)"/>
+</svg>
