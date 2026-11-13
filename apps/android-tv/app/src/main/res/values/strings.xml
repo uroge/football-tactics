@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Football Tactics</string>
+    <string name="idle">Capture idle</string>
+    <string name="waiting_for_consent">Waiting for screen capture consent</string>
+    <string name="starting">Starting session</string>
+    <string name="capture_active">Screen capture active</string>
+    <string name="overlay_active">Overlay-only test active</string>
+    <string name="stopping">Stopping session</string>
+    <string name="start_capture">Start capture</string>
+    <string name="stop">Stop session</string>
+    <string name="overlay_only">Test overlay only</string>
+    <string name="mark_on">Test mark requested on</string>
+    <string name="mark_off">Test mark off</string>
+    <string name="show_mark">Show test mark</string>
+    <string name="hide_mark">Hide test mark</string>
+    <string name="overlay_settings">Overlay permission settings</string>
+    <string name="overlay_unavailable">Overlay permission settings are unavailable on this device</string>
+    <string name="capture_denied">Screen capture consent declined</string>
+    <string name="capture_unavailable">Screen capture consent is unavailable on this device</string>
+    <string name="service_unavailable">Could not start session (%1$s)</string>
 </resources>
