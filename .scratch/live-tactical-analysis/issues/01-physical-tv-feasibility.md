@@ -4,10 +4,10 @@
 On the owner's TV, watch authorized, unprotected moving video in a separate playback app while Football Tactics captures usable frames, draws a static mark, and leaves playback controls working.
 
 **Blocked by**
-[Android setup evidence](../decisions.md#e01). owner approval to start Phase 1 ([D01](../decisions.md#d01)).
+[Android setup evidence](../decisions.md#e01) and owner approval to start Phase 1 ([D01](../decisions.md#d01)) are satisfied. Physical verification requires ADB access to the reference ZTE MediaBox 12 and observation with its remote.
 
 **Status**
-Draft for owner review
+Implementation and code review complete. Physical verification blocked on ADB connectivity to the reference box. The owner confirmed any compatible separate playback app is sufficient. See the [experiment and emulator evidence](../../../docs/experiments/android-capture-feasibility.md).
 
 **Modules and interfaces**
 TV session and platform adapters.
