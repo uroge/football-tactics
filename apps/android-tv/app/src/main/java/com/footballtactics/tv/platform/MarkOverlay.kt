@@ -46,8 +46,8 @@ internal class MarkOverlay(private val context: Context) {
 
     fun hide() {
         val view = mark ?: return
+        windows.removeViewImmediate(view)
         mark = null
-        if (view.isAttachedToWindow) windows.removeViewImmediate(view)
     }
 
     private fun dp(value: Int) = (value * context.resources.displayMetrics.density).roundToInt()

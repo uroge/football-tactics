@@ -1,32 +1,35 @@
 package com.footballtactics.tv.ui
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.projection.MediaProjectionManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
 import com.footballtactics.tv.R
 import com.footballtactics.tv.platform.CaptureService
 import com.footballtactics.tv.session.CapturePhase
 
 class MainActivity : ComponentActivity() {
     private val session = CaptureService.session
-    private var pendingConsent: ActivityResult? = null
+
+    private val requestNotifications = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        requestCaptureConsent()
+    }
 
     private val requestCapture = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (session.state.value.phase != CapturePhase.RequestingConsent) return@registerForActivityResult
         if (result.resultCode != RESULT_OK || result.data == null) {
             session.finish(getString(R.string.capture_denied))
         } else {
-            pendingConsent = result
-            if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) startConsentedCapture()
+            startConsentedCapture(result.resultCode, checkNotNull(result.data))
         }
     }
 
@@ -36,7 +39,7 @@ class MainActivity : ComponentActivity() {
             CaptureControls(
                 session = session,
                 requestOverlayPermission = ::openOverlaySettings,
-                requestCapture = ::requestCaptureConsent,
+                requestCapture = ::startCapture,
                 startOverlay = ::startOverlay,
                 toggleMark = { command(CaptureService.TOGGLE_MARK) },
                 stop = { command(CaptureService.STOP) },
@@ -44,9 +47,16 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    override fun onPostResume() {
-        super.onPostResume()
-        startConsentedCapture()
+    private fun startCapture() {
+        val permission = Manifest.permission.POST_NOTIFICATIONS
+        if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED &&
+            !getPreferences(MODE_PRIVATE).getBoolean("asked_for_capture_notifications", false)
+        ) {
+            getPreferences(MODE_PRIVATE).edit().putBoolean("asked_for_capture_notifications", true).apply()
+            requestNotifications.launch(permission)
+        } else {
+            requestCaptureConsent()
+        }
     }
 
     private fun requestCaptureConsent() {
@@ -59,13 +69,12 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun startConsentedCapture() {
-        val result = pendingConsent ?: return
-        pendingConsent = null
+    private fun startConsentedCapture(resultCode: Int, data: Intent) {
+        // Start directly on the user-initiated system result. The app picker can bring playback to the front.
         if (!session.acceptConsent()) return
         val intent = Intent(this, CaptureService::class.java).setAction(CaptureService.START_CAPTURE)
-            .putExtra(CaptureService.RESULT_CODE, result.resultCode)
-            .putExtra(CaptureService.CONSENT, result.data)
+            .putExtra(CaptureService.RESULT_CODE, resultCode)
+            .putExtra(CaptureService.CONSENT, data)
         startForegroundSession(intent)
     }
 

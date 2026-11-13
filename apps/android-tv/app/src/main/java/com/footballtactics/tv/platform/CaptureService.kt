@@ -1,5 +1,6 @@
 package com.footballtactics.tv.platform
 
+import android.app.AppOpsManager
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -25,10 +26,20 @@ internal class CaptureService : Service() {
     private lateinit var overlay: MarkOverlay
     private var capture: ProjectionCapture? = null
     private var lastLogAt: Long? = null
+    private var ownsSession = false
+    private val appOps by lazy { getSystemService(AppOpsManager::class.java) }
+    private val overlayPermissionListener = AppOpsManager.OnOpChangedListener { _, _ ->
+        handler.post {
+            if (ownsSession && session.state.value.markVisible && !Settings.canDrawOverlays(this)) {
+                end("Overlay permission revoked")
+            }
+        }
+    }
 
     override fun onCreate() {
         super.onCreate()
         overlay = MarkOverlay(this)
+        appOps.startWatchingMode(AppOpsManager.OPSTR_SYSTEM_ALERT_WINDOW, packageName, overlayPermissionListener)
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -42,7 +53,7 @@ internal class CaptureService : Service() {
                 TOGGLE_MARK -> if (session.state.value.phase == CapturePhase.Capturing) {
                     setMarkVisible(!session.state.value.markVisible)
                 }
-                STOP -> end("Stopped by user")
+                STOP -> if (ownsSession) end("Stopped by user") else stopSelf()
                 else -> end("Session ended")
             }
         } catch (failure: RuntimeException) {
@@ -52,6 +63,7 @@ internal class CaptureService : Service() {
     }
 
     private fun startSession(intent: Intent) {
+        ownsSession = true
         val projecting = intent.action == START_CAPTURE
         val type = when {
             projecting -> ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PROJECTION
@@ -127,7 +139,8 @@ internal class CaptureService : Service() {
     }
 
     private fun release(reason: String) {
-        if (session.state.value.phase == CapturePhase.Idle) return
+        if (!ownsSession) return
+        ownsSession = false
         session.stopping()
         val start = SystemClock.elapsedRealtime()
         var captureReleased = false
@@ -153,6 +166,7 @@ internal class CaptureService : Service() {
     }
 
     override fun onDestroy() {
+        appOps.stopWatchingMode(overlayPermissionListener)
         release("Service destroyed")
         super.onDestroy()
     }

@@ -42,8 +42,9 @@ internal class ProjectionCapture(
                     next.close()
                     throw failure
                 }
-                reader?.close()
+                val previous = reader
                 reader = next
+                previous?.close()
                 resetInspection()
             } catch (failure: RuntimeException) {
                 onEnded("Capture resize failed (${failure.javaClass.simpleName})")
@@ -117,8 +118,11 @@ internal class ProjectionCapture(
             try {
                 activeReader?.close()
             } finally {
-                activeProjection?.unregisterCallback(callback)
-                activeProjection?.stop()
+                try {
+                    activeProjection?.unregisterCallback(callback)
+                } finally {
+                    activeProjection?.stop()
+                }
             }
         }
     }

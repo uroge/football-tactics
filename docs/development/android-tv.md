@@ -11,15 +11,15 @@ moon run android-tv:build android-tv:lint
 The equivalent native commands run from `apps/android-tv`:
 
 ```sh
-./gradlew :app:assembleDebug :app:lintDebug
+./gradlew :app:assembleDebug :app:lintDebug :app:testDebugUnitTest
 ```
 
-The debug APK is at `app/build/outputs/apk/debug/app-debug.apk` relative to the Android project. Use `apkanalyzer manifest permissions` on the APK to check that it requests no capture, overlay, or network permissions. AndroidX contributes an app-scoped signature permission for its receiver support.
+The debug APK is at `app/build/outputs/apk/debug/app-debug.apk` relative to the Android project. Use `apkanalyzer manifest permissions` on the APK to check the overlay, notification and foreground service permissions. The spike performs no network capture or transport. AndroidX contributes an app-scoped signature permission for its receiver support.
 
 ## TV launcher smoke check
 
 1. Boot an Android TV AVD (API 26 or newer) in Android Studio Device Manager. Install the debug APK with `adb install -r app/build/outputs/apk/debug/app-debug.apk`.
-2. Open the TV home screen and select **Football Tactics** from the apps list. The app should show a blank, dark Compose surface.
+2. Open the TV home screen and select **Football Tactics** from the apps list. The app should show capture and overlay test controls. Verify the D-pad can focus each available button.
 3. Press Back to return to the TV launcher. Launch Football Tactics again and verify that it opens without crashing.
 
 For an ADB check of the same launcher intent, use `adb shell am start -W -a android.intent.action.MAIN -c android.intent.category.LEANBACK_LAUNCHER -n com.footballtactics.tv/.ui.MainActivity`. The launch should report `Status: ok`.

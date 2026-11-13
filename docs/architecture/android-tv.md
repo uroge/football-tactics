@@ -2,7 +2,7 @@
 
 ## Module layout
 
-The Gradle project has one Android application module. TV Compose screens belong in the UI package. As analysis is added, a session package will own session state and coordination, and platform packages will own Android capture and window resources. Keep those resources behind small interfaces when session logic needs them. See the [Android TV development guide](../development/android-tv.md) for build and launcher verification.
+The Gradle project has one Android application module. TV Compose screens belong in the UI package. The session package owns session state, and the platform package owns Android capture and window resources. Keep those resources behind small interfaces when session logic needs them. See the [Android TV development guide](../development/android-tv.md) for build and launcher verification.
 
 ## Documented platform behavior
 
@@ -10,9 +10,9 @@ The Gradle project has one Android application module. TV Compose screens belong
 - Android 15 narrows the overlay-permission exemption for background foreground-service starts. Start the spike from its visible activity after consent. [Android 15 behavior changes](https://developer.android.com/about/versions/15/behavior-changes-15)
 - Application overlays require special permission and other apps can hide them. Secure windows can be excluded from capture. [Window parameters](https://developer.android.com/reference/android/view/WindowManager.LayoutParams) · [Secure activities](https://developer.android.com/security/fraud-prevention/activities)
 
-## Proposed design
+## Feasibility implementation
 
-A TV Compose activity owns controls and permission requests. A session coordinator exposes idle, requesting consent, running, stopping and terminal error or unsupported states. A foreground service owns the projection, virtual display and `ImageReader`. An overlay adapter owns a non-focusable Canvas view. The experiment starts with a static graphic and an in-memory frame preview or checksum.
+A TV Compose activity owns controls and permission requests. The session exposes idle, consent, starting, overlay-only, capture and stopping phases. A terminal result returns to idle with a status message. A foreground service owns the projection, virtual display and `ImageReader`. An overlay adapter owns a non-focusable Canvas view. The experiment starts with a static graphic and sparse in-memory samples that report light, motion and a candidate mark. The notification offers a Stop action when Android displays it. The TV controls also expose Stop.
 
 For live rendering, map normalized frame coordinates into the captured content bounds and then into overlay coordinates. Invalidate previous geometry after a size change and test letterboxing and pillarboxing. Clear the overlay on stop, stale results, or loss of alignment.
 
