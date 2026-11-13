@@ -1,0 +1,13 @@
+tasks:
+  test:
+    command: ['uv', 'run', '--locked', 'pytest']
+    options:
+      cache: false
+  lint:
+    command: ['uv', 'run', '--locked', 'ruff', 'check', '.']
+    options:
+      cache: false
+  typecheck:
+    command: ['uv', 'run', '--locked', 'mypy']
+    options:
+      cache: false

@@ -1,0 +1,21 @@
+[project]
+name = "football-vision"
+version = "0.1.0"
+description = "Computer vision package for Football Tactics"
+requires-python = ">=3.13"
+dependencies = []
+
+[build-system]
+requires = ["uv_build==0.13.8"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy",
+    "pytest",
+    "ruff",
+]
+
+[tool.mypy]
+strict = true
+files = ["src", "tests"]
