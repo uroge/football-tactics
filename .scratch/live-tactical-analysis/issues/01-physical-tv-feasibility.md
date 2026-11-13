@@ -4,10 +4,10 @@
 On the owner's TV, watch authorized, unprotected moving video in a separate playback app while Football Tactics captures usable frames, draws a static mark, and leaves playback controls working.
 
 **Blocked by**
-[Android setup evidence](../decisions.md#e01) and owner approval to start Phase 1 ([D01](../decisions.md#d01)) are satisfied. Physical verification requires ADB access to the reference ZTE MediaBox 12 and observation with its remote.
+[Android setup evidence](../decisions.md#e01) and owner approval to start Phase 1 ([D01](../decisions.md#d01)) are satisfied. Physical verification awaits a successful install on the reference Yettel ZTE MediaBox 12 and a test with its remote. The Developer page is password-protected and ADB is unavailable. The owner will try USB sideloading through Android’s package installer.
 
 **Status**
-Implementation and code review complete. Physical verification blocked on ADB connectivity to the reference box. The owner confirmed any compatible separate playback app is sufficient. See the [experiment and emulator evidence](../../../docs/experiments/android-capture-feasibility.md).
+**Pending physical verification.** Implementation, code review and emulator checks are complete. USB installation and physical checks are pending. The owner confirmed any compatible separate playback app is sufficient. See the [experiment and emulator evidence](../../../docs/experiments/android-capture-feasibility.md).
 
 **Modules and interfaces**
 TV session and platform adapters.
@@ -28,4 +28,4 @@ Device or app blocks capture or overlay, and overlay pixels may be included in t
 
 ## Verification
 
-Use ADB sideload and lifecycle diagnostics, compare in-memory frame observations, and observe playback, indicator and D-pad directly on the TV. Run session transition tests and available lifecycle instrumentation. Save device metadata and redacted evidence in the experiment. Record elapsed capture stop and window removal observations and evidence of teardown on each termination path. Emulator checks supplement the TV run.
+Try installing the debug APK from USB. If it installs, use the physical remote to test overlay-only, capture-only and combined operation with authorized, unprotected video. Compare in-memory frame observations and check the capture indicator, Stop and playback controls. Use ADB for lifecycle diagnostics if it becomes available. Record the reason for any unavailable check. Run session transition tests and available lifecycle instrumentation. Save device metadata and redacted evidence in the experiment. Record elapsed capture stop and window removal observations and evidence of teardown on each termination path. Emulator checks supplement the TV run.

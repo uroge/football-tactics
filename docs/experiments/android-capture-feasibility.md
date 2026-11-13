@@ -4,7 +4,7 @@
 
 ## Setup
 
-Use the owner's physical TV, its normal remote, a separate playback app and an authorized unprotected local clip with visible movement. Record model, OS/API level, firmware, playback app and version, app target SDK, capture mode, screen resolution and consent behavior. Use ADB for the sideload and diagnostic logs. Record only test metadata by default.
+Use the owner's physical TV, its normal remote, a separate playback app and an authorized unprotected local clip with visible movement. Record model, OS/API level, firmware, playback app and version, app target SDK, capture mode, screen resolution and consent behavior. Use USB for the sideload if the box permits it. Use ADB for diagnostic logs when available. Record only test metadata by default.
 
 ## Run
 
@@ -49,4 +49,4 @@ A temporary separate playback app (`com.footballtactics.fixture`, version code u
 
 ### Gate decision
 
-**Pending.** The emulator demonstrated simultaneous display capture and a registered overlay and found display-capture contamination. The reference hardware run is required before tickets 02 and 03 can advance. Once ADB can reach the box, sideload the debug APK and use the physical remote and an authorized unprotected clip to run the matrix above. Record what the box actually offers before deciding which modes to repeat.
+**Pending.** The emulator demonstrated simultaneous display capture and a registered overlay and found display-capture contamination. The reference hardware run is required before tickets 02 and 03 can advance. The box prompts for a password on the Developer page. The owner will try installing the debug APK from USB through Android’s package installer. If installation succeeds, use the physical remote and an authorized, unprotected clip to begin the matrix above. Record any checks that remain unavailable without ADB. Record what the box actually offers before deciding which modes to repeat.
