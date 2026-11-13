@@ -1,5 +1,9 @@
 # Android TV architecture
 
+## Module layout
+
+The Gradle project has one Android application module. TV Compose screens belong in the UI package. As analysis is added, a session package will own session state and coordination, and platform packages will own Android capture and window resources. Keep those resources behind small interfaces when session logic needs them. See the [Android TV development guide](../development/android-tv.md) for build and launcher verification.
+
 ## Documented platform behavior
 
 - MediaProjection can project permitted display or selected app content to a virtual display. Apps targeting Android 14 or newer request consent per session, use a token once for one virtual display, declare the appropriate foreground service and register the stop callback before creating the display. [Media projection](https://developer.android.com/media/grow/media-projection) · [Foreground service types](https://developer.android.com/develop/background-work/services/fgs/service-types#media-projection)

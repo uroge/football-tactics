@@ -24,3 +24,6 @@ target/
 *.pt
 *.pth
 *.onnx
+
+# Kotlin Gradle plugin local state
+.kotlin/

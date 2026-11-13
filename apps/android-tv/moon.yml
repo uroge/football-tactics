@@ -1,0 +1,9 @@
+tasks:
+  build:
+    command: ['./gradlew', ':app:assembleDebug']
+    options:
+      cache: false
+  lint:
+    command: ['./gradlew', ':app:lintDebug']
+    options:
+      cache: false
